@@ -28,7 +28,7 @@ public class Entrega {
     private BigDecimal taxa;
 
     @Enumerated(EnumType.STRING) // Anotação para escrever no tipo "string" e não índice (ordinal, número)
-    private StatusEntrega statusEntrega;
+    private StatusEntrega status;
 
     private LocalDateTime dataPedido;
 
