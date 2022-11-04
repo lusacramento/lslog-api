@@ -49,4 +49,7 @@ public class Entrega {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime dataFinalizacao;
+
+   // @Transient  Não mapeia este campo na tabela do bd.
+    // private String senha;
 }
