@@ -1,5 +1,6 @@
 package com.lusacramento.lslog.domain.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,10 +29,13 @@ public class Entrega {
 
     private BigDecimal taxa;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING) // Anotação para escrever no tipo "string" e não índice (ordinal, número)
     private StatusEntrega status;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime dataPedido;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime dataFinalizacao;
 }
