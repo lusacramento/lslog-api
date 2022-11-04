@@ -1,5 +1,7 @@
 package com.lusacramento.lslog.api.controller;
 
+import com.lusacramento.lslog.domain.model.dto.DestinatarioDto;
+import com.lusacramento.lslog.domain.model.dto.EntregaDto;
 import com.lusacramento.lslog.domain.model.entity.Entrega;
 import com.lusacramento.lslog.domain.service.EntregaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +32,27 @@ public class EntregaController {
     }
 
     @GetMapping("/{entregaId}")
-    public ResponseEntity<Entrega> findById(@PathVariable Long entregaId){
+    public ResponseEntity<EntregaDto> findById(@PathVariable Long entregaId){
         return entregaService.findById(entregaId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(entrega -> {
+                  EntregaDto entregaDto = new EntregaDto();
+                  entregaDto.setId(entrega.getId());
+                  entregaDto.setNomeCliente(entrega.getCliente().getNome());
+
+                  entregaDto.setDestinatario( new DestinatarioDto());
+                  entregaDto.getDestinatario().setNome(entrega.getDestinatario().getNome());
+                  entregaDto.getDestinatario().setLogradouro(entrega.getDestinatario().getLogradouro());
+                  entregaDto.getDestinatario().setNumero(entrega.getDestinatario().getNumero());
+                  entregaDto.getDestinatario().setComplemento(entrega.getDestinatario().getComplemento());
+                  entregaDto.getDestinatario().setBairro(entrega.getDestinatario().getBairro());
+
+                  entregaDto.setTaxa(entrega.getTaxa());
+                  entregaDto.setStatus(entrega.getStatus());
+                  entregaDto.setDataPedido(entrega.getDataPedido());
+                  entregaDto.setDataFinalizacao(entrega.getDataFinalizacao());
+
+                  return ResponseEntity.ok(entregaDto);
+                }).orElse(ResponseEntity.notFound().build());
     }
 
 
