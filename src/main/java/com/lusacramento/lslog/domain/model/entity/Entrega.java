@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
 public class Entrega {
 
     @EqualsAndHashCode.Include
@@ -18,8 +19,8 @@ public class Entrega {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne // Muitas entregas possuem 1 cliente
 //    @JoinColumn(name = "cliente_id")  Caso a coluna do bd for outro nome, usar esta anotação
+    @ManyToOne // Muitas entregas possuem 1 cliente
     private Cliente cliente;
 
     @Embedded // os dados desta entidade está contido na nesta tabela do banco de dados.
