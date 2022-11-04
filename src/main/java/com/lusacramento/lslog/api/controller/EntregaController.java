@@ -1,6 +1,6 @@
 package com.lusacramento.lslog.api.controller;
 
-import com.lusacramento.lslog.domain.model.dto.DestinatarioDto;
+import com.lusacramento.lslog.assembler.EntregaAssembler;
 import com.lusacramento.lslog.domain.model.dto.EntregaDto;
 import com.lusacramento.lslog.domain.model.entity.Entrega;
 import com.lusacramento.lslog.domain.service.EntregaService;
@@ -19,43 +19,26 @@ public class EntregaController {
     @Autowired
     private EntregaService entregaService;
 
+    @Autowired
+    private EntregaAssembler entregaAssembler;
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Entrega save(@Valid @RequestBody Entrega entrega){
-        return entregaService.save(entrega);
+    public EntregaDto save(@Valid @RequestBody Entrega entrega){
+        Entrega entregaSolicitada = entregaService.save(entrega);
+        return entregaAssembler.toDto(entregaSolicitada);
     }
 
     @GetMapping
-    public List<Entrega> findAll(){
-        return entregaService.findAll();
+    public List<EntregaDto> findAll(){
+        return entregaAssembler.toCollectionDto(entregaService.findAll());
     }
 
     @GetMapping("/{entregaId}")
     public ResponseEntity<EntregaDto> findById(@PathVariable Long entregaId){
         return entregaService.findById(entregaId)
-                .map(entrega -> {
-                  EntregaDto entregaDto = new EntregaDto();
-                  entregaDto.setId(entrega.getId());
-                  entregaDto.setNomeCliente(entrega.getCliente().getNome());
-
-                  entregaDto.setDestinatario( new DestinatarioDto());
-                  entregaDto.getDestinatario().setNome(entrega.getDestinatario().getNome());
-                  entregaDto.getDestinatario().setLogradouro(entrega.getDestinatario().getLogradouro());
-                  entregaDto.getDestinatario().setNumero(entrega.getDestinatario().getNumero());
-                  entregaDto.getDestinatario().setComplemento(entrega.getDestinatario().getComplemento());
-                  entregaDto.getDestinatario().setBairro(entrega.getDestinatario().getBairro());
-
-                  entregaDto.setTaxa(entrega.getTaxa());
-                  entregaDto.setStatus(entrega.getStatus());
-                  entregaDto.setDataPedido(entrega.getDataPedido());
-                  entregaDto.setDataFinalizacao(entrega.getDataFinalizacao());
-
-                  return ResponseEntity.ok(entregaDto);
-                }).orElse(ResponseEntity.notFound().build());
+                .map(entrega -> ResponseEntity.ok(entregaAssembler.toDto(entrega)))
+                .orElse(ResponseEntity.notFound().build());
     }
-
-
-
-
 }
