@@ -4,6 +4,7 @@ import com.lusacramento.lslog.domain.model.entity.Entrega;
 import com.lusacramento.lslog.domain.model.entity.StatusEntrega;
 import com.lusacramento.lslog.domain.repository.EntregaRepository;
 import com.lusacramento.lslog.domain.service.EntregaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Service
 public class EntregaServiceImpl implements EntregaService {
 
+    @Autowired
     private EntregaRepository entregaRepository;
 
     @Override
