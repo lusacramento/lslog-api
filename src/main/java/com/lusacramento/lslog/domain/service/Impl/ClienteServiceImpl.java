@@ -24,7 +24,8 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Optional<Cliente> findById(Long clienteId) {
-        return clienteRepository.findById(clienteId);
+
+        return clienteRepository. findById(clienteId);
     }
 
     @Override
@@ -55,4 +56,11 @@ public class ClienteServiceImpl implements ClienteService {
     public boolean existsById(Long clienteId) {
         return clienteRepository.existsById(clienteId);
     }
+
+    @Override
+    public Cliente findByIdwithExceptionResponse(Long clienteId) {
+        return clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NegocioException("Cliente não encontrado"));
+    }
 }
+

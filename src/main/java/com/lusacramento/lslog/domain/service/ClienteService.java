@@ -16,5 +16,6 @@ public interface ClienteService {
     public void deleteById(Long clienteId);
     public boolean existsById(Long clienteId);
 
+    public Cliente findByIdwithExceptionResponse(Long clienteId);
 
 }
