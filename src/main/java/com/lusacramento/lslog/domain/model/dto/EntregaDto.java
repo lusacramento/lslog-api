@@ -15,7 +15,7 @@ public class EntregaDto {
 
     private String nomeCliente;
 
-    private DestinatarioModel destinatario;
+    private DestinatarioDto destinatario;
 
     private BigDecimal taxa;
 
