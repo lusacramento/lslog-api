@@ -1,5 +1,6 @@
 package com.lusacramento.lslog.api.exceptionhandler;
 
+import com.lusacramento.lslog.domain.exception.EntidadeNaoEncontradaException;
 import com.lusacramento.lslog.domain.exception.NegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -49,6 +50,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleNegocio(NegocioException ex, WebRequest request){
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        Problem problem = new Problem();
+        problem.setStatus(status.value());
+        problem.setDataHora(OffsetDateTime.now());
+        problem.setTitulo(ex.getMessage());
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+
+    }
+    @ExceptionHandler
+    public ResponseEntity<Object> handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException ex, WebRequest request){
+
+        HttpStatus status = HttpStatus.NOT_MODIFIED;
         Problem problem = new Problem();
         problem.setStatus(status.value());
         problem.setDataHora(OffsetDateTime.now());
